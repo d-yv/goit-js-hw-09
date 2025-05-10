@@ -3,8 +3,6 @@ let formData = {
   message: '',
 };
 
-console.log(localStorage);
-
 const inputForm = document.querySelector('.feedback-form');
 if (localStorage.length !== 0) {
   formData = JSON.parse(localStorage.getItem('feedback-form-state'));
@@ -17,7 +15,6 @@ inputForm.addEventListener('input', () => {
   formData.message = inputForm.message.value.trim();
   localStorage.setItem('feedback-form-state', JSON.stringify(formData));
 });
-console.log(formData);
 
 //Submit
 inputForm.addEventListener('submit', e => {
@@ -25,8 +22,9 @@ inputForm.addEventListener('submit', e => {
   if (formData.email != '' && formData.message != '') {
     console.log(formData);
     e.target.reset();
-    formData.email = '';
-    formData.message = '';
+    for (const key in formData) {
+      delete formData[key];
+    }
     localStorage.removeItem('feedback-form-state');
     return;
   } else {
